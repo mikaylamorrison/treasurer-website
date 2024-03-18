@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+<!-- NOTICE HOW THERE IS NO DOCTYPE AND STUFF? IT'S BECAUSE 
+YOU EXTEND FROM BASE.HTML, SO IT HAS EVERYTHING BUT THE STUFF BETWEEN THE
+"block head" and "endblock" so that's like what you want to "fill out" basically-->
+{% block head %}
+<title>Task Master</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Update Task</h1>
+
+    <div class="form">
+        <form action="/update/{{task.id}}" method="POST">
+            <input type="text" name="content" id="content" value="{{task.content}}">
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</div>
+{% endblock %}
