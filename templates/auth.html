@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="container">
+        <form action="{{ request.path }}" method="POST" class="card-body">
+            {{ form.csrf_token }}
+
+            <!-- DISPLAY ERROR MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+                    {% for category, message in messages %}
+
+                        {{ message }}
+                    
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div>
+                <h2>Club Meetings</h2>
+                <h5>{{ text }}</h5>
+            </div>
+            
+             <!-- DISPLAY NAME (REGISTER PAGE ONLY) -->
+            {% if request.path == '/register/' %}
+                <div class="form">
+                    {{ form.displayname(placeholder="Display Name")}}
+                </div>
+                    <!-- FIELD ERROR MESSAGES SPECIFIC -->
+                    {% for error in form.displayname.errors %}
+                        {{ error }}
+                    {% endfor%}
+            {% endif %}
+
+             <!-- USERNAME -->
+            <div class="form">
+                {{ form.username(placeholder="Username")}}
+            </div>
+
+            <!-- FIELD ERROR MESSAGES SPECIFIC -->
+            {% for error in form.username.errors %}
+                <div>
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                </div>
+            {% endfor%}
+
+             <!-- PASSWORD -->
+            <div class="form">
+                {{ form.pwd(placeholder="Password")}}
+            </div>
+
+            <!-- FIELD ERROR MESSAGES SPECIFIC -->
+            {% for error in form.pwd.errors %}
+                <div>
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                </div> 
+            {% endfor%}
+
+            <!-- CONFIRM PASSWORD (REGISTER PAGE ONLY) -->
+            {% if request.path == '/register/' %}
+                <div class="form">
+                    {{ form.cpwd(placeholder="Confirm Password")}}
+                </div>
+
+                <!-- FIELD ERROR MESSAGES SPECIFIC -->
+                {% for error in form.cpwd.errors %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                {% endfor%}
+            {% endif %}
+
+            <div>
+
+                <div>
+                    <button type="submit" class="button"> {{ btn_action }} </button>
+                </div>
+
+                <p>
+                    {% if request.path != '/register/' %}
+                        New here?
+                        <a href="{{url_for('register')}}">Create account</a>
+                    {% else %}
+                        Already have an account?
+                        <a href="{{url_for('login')}}">Login</a>
+                    {% endif %}
+                </p>
+                
+            </div>
+        </form>
+</div>
+{% endblock %}

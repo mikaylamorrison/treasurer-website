@@ -1,35 +1,30 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 
-# app is the current module name ig??
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///customerInfo.db'
-db = SQLAlchemy(app)
+from flask_login import (
+    LoginManager,
+)
 
-class user(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False)
-    password = db.Column(db.String, nullable=False)
-    displayName = db.Column(db.String, default = username)
-    streak = db.Column(db.Integer, default = 0)
-    sessionsUnpaid = db.Column(db.Integer, default = 0)
+login_manager = LoginManager()
+login_manager.session_protection = "strong"
+login_manager.login_view = "login"
+login_manager.login_message_category = "info"
+db = SQLAlchemy()
+migrate = Migrate()
+bcrypt = Bcrypt()
+
+def create_app():
+    app = Flask(__name__)
     
-    def __repr__(self) -> str:
-        return '<User %r' % self.id
+    app.secret_key = 'secret-key'
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///userDatabase.db"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+    login_manager.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
     
-
-# @app.route, decorates a view function to register it with the given URL
-# idk look at documentation idk what this does yet
-@app.route('/')
-def index():
-    # Don't need to say the path file, render template knows to look for index.html
-    # this is rendering the page.
-    # render template prolly just renders the html file.
-    return render_template('index.html')
-
-
-
-# RUNNING APP
-if __name__ == "__main__":
-    app.run(debug=True)
-    
+    return app
