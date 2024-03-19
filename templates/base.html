@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <!-- THIS IS THE BASE TEMPLATE, SO IF YOU INHERIT THE BASE (WE CAN EDIT THIS BTW) THE ONLY CODE YOU NEED TO EDIT IS WITHIN THE
-    BLOCKS. CHECK INDEX.HTML AND UPDATE.HTML AS AN EXAMPLE
-    SO IF WE WANT A COMMON HEADER AND BAR OR SOMETHING IDK I THINK WE COULD PUT IT IN HERE @FRONTEND PPL
-    
-    FOR CSS CHECK STATIC FOLDER!!!!-->
-    {% block head %}{% endblock %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> {% block title%} {{ title }} {% endblock %} </title>
 </head>
+
 <body>
-    {% block body %}{% endblock %}
+    <div class="container-fluid">
+        {% block content%}
+        {% endblock %}
+    </div>
 </body>
+
 </html>
