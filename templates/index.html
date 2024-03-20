@@ -78,8 +78,8 @@
                  <td>{{ expenses.urgency8.due }}</td> <!--need something for the expense amount due-->
                  <td>{{ expenses.urgency8.paid }}</td> <!--need something for the expense amount paid-->
              </tr>
-
-            <form>
+        </table>
+    <form>
                 <label>Pay Amount</label>
                 <input name="Pay Amount"> <br>
                 <label for="pay to">Select an Expense Type:</label>
@@ -95,8 +95,6 @@
                     </select>
             </form>
             <button type="submit" form="form1" value="Submit">Pay</button>
-            
-        </table>
     </p>
     
     {% else %}
