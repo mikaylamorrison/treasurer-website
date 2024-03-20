@@ -5,7 +5,6 @@ from wtforms import (
 
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Length, EqualTo, Regexp ,Optional
-from flask_login import current_user
 from wtforms import ValidationError,validators
 from models import User
 
