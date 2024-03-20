@@ -5,96 +5,73 @@
   <div>
       {% if current_user.is_authenticated %}
         <img src="2.png" width="100" height="100">
-            <h1>Welcome {{ current_user.displayName }}</h1>
+            <h1>Welcome {{ current_user.displayname }}</h1>
             <a href="{{url_for('logout')}}">Logout</a>
-            <p>
-<!--Expenses: Rent,Coaches,Member Discounts,Food and Drink,Staff Payroll,Insurance,Maintenance,Utility Costs-->
-              <h2>Club Expenses</h2>
-              <table border="1">
-                  <tr>
-                      <th>Urgency</th> 
-                      <th>Expense Type</th>
-                      <th>Amount Paid</th>
-                      <th>Amount Due</th>
-                  </tr>
+            {% if current_user.username == 'admin' %}
+    <!-- CURRENTLY COMMENTED OUT THE EXPENSES, IF WANT TO TEST, REMOVE {# #}-->
 
-                  <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
-                   <tr> <!--will make one of these rows for each expense-->
-                       <td>{{ expenses.urgency1.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency1.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency1.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency1.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
+    {#                 
+                <p>
+                <!--Expenses: Rent,Coaches,Member Discounts,Food and Drink,Staff Payroll,Insurance,Maintenance,Utility Costs-->
+                    <h2>Club Expenses</h2>
+                    <table border="1">
+                        <tr>
+                            <th>Urgency</th> 
+                            <th>Expense Type</th>
+                            <th>Amount Paid</th>
+                            <th>Amount Due</th>
+                        </tr>
 
-                  <tr> 
-                       <td>{{ expenses.urgency2.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency2.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency2.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency2.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
+                        <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
 
-                  <tr> 
-                       <td>{{ expenses.urgency3.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency3.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency3.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency3.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
+                        {% for expense in expenses %}
+                            <tr> <!--will make one of these rows for each expense-->
+                                <td>{{ expense.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
+                                <td>{{ expense.type }}</td> <!--need something for the expense type-->
+                                <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
+                                <td>{{ expense.paid }}</td> <!--need something for the expense amount paid-->
+                            </tr>
+                        {% endfor%}
+                    </table>
+                    <form>
+                        <label>Pay Amount</label>
+                        <input name="Pay Amount"> <br>
+                        <label for="pay to">Select an Expense Type:</label>
+                        <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
+                            {% for expense in expenses %}
+                                <option value={{ expense.type }}>{{ expense.type }} </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <button type="submit" form="form1" value="Submit">Pay</button>
+                </p> 
+    #}
+    
+                <p>
+                    <h2>Club Members</h2>
+                    <table border="1">
+                        <tr>
+                            <th>Display Name</th>
+                            <th>Username</th>
+                            <th>Sessions Unpaid</th>
+                            <th>Streak</th>
+                        </tr>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.displayname }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.sessionsunpaid }}</td>
+                            <td>{{ user.streak }}</td>
+                        </tr>
+                    {% endfor%}
+                    </table>
+                </p>
 
-                  <tr> 
-                       <td>{{ expenses.urgency4.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency4.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency4.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency4.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
-
-                   <tr> 
-                       <td>{{ expenses.urgency5.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency5.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency5.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency5.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
-
-                   <tr> 
-                       <td>{{ expenses.urgency6.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency6.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency6.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency6.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
-
-                   <tr> 
-                       <td>{{ expenses.urgency7.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency7.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency7.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency7.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
-
-                   <tr> 
-                       <td>{{ expenses.urgency8.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
-                       <td>{{ expenses.urgency8.type }}</td> <!--need something for the expense type-->
-                       <td>{{ expenses.urgency8.due }}</td> <!--need something for the expense amount due-->
-                       <td>{{ expenses.urgency8.paid }}</td> <!--need something for the expense amount paid-->
-                   </tr>
-              </table>
-          <form>
-                      <label>Pay Amount</label>
-                      <input name="Pay Amount"> <br>
-                      <label for="pay to">Select an Expense Type:</label>
-                      <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
-                          <option value={{ expenses.urgency1.type }}>{{ expenses.urgency1.type }}</option> 
-                          <option value={{ expenses.urgency2.type }}>{{ expenses.urgency2.type }}</option> 
-                          <option value={{ expenses.urgency3.type }}>{{ expenses.urgency3.type }}</option> 
-                          <option value={{ expenses.urgency4.type }}>{{ expenses.urgency4.type }}</option> 
-                          <option value={{ expenses.urgency5.type }}>{{ expenses.urgency5.type }}</option> 
-                          <option value={{ expenses.urgency6.type }}>{{ expenses.urgency6.type }}</option> 
-                          <option value={{ expenses.urgency7.type }}>{{ expenses.urgency7.type }}</option> 
-                          <option value={{ expenses.urgency8.type }}>{{ expenses.urgency8.type }}</option> 
-                          </select>
-                  </form>
-                  <button type="submit" form="form1" value="Submit">Pay</button>
-      </p>
+            {% endif %}
+            
 
       {% else %}
-      <a href="{{url_for('login')}}">Sign in/Sign Up</a>
+        <a href="{{url_for('login')}}">Sign in/Sign Up</a>
 
       {% endif %}
 
