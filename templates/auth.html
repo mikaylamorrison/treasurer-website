@@ -2,7 +2,7 @@
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
 <div class="container">
-        <form action="{{ request.path }}" method="POST" class="card-body">
+        <form action="{{ request.path }}" method="POST">
             {{ form.csrf_token }}
 
             <!-- DISPLAY ERROR MESSAGES -->

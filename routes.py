@@ -48,6 +48,7 @@ def session_handler():
 @app.route('/index', methods=("GET", "POST"), strict_slashes=False)
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
+    
     return render_template("index.html",title="Home")
 
 

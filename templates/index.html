@@ -2,18 +2,17 @@
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
 
-<div>
+    <div>
 
+        {% if current_user.is_authenticated %}
 
-    {% if current_user.is_authenticated %}
+            <h1>Welcome {{ current_user.displayName }}</h1>
+            <a href="{{url_for('logout')}}">Logout</a>
 
-    <h1>Welcome {{ current_user.displayName }}</h1>
-    <a href="{{url_for('logout')}}">Logout</a>
+        {% else %}
 
-    {% else %}
-
-    <a href="{{url_for('login')}}">Sign in/Sign Up</a>
-    
-    {% endif %}
-</div>
+            <a href="{{url_for('login')}}">Sign in/Sign Up</a>
+        
+        {% endif %}
+    </div>
 {% endblock %}
