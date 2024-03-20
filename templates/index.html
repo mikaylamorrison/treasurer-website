@@ -78,6 +78,23 @@
                  <td>{{ expenses.urgency8.due }}</td> <!--need something for the expense amount due-->
                  <td>{{ expenses.urgency8.paid }}</td> <!--need something for the expense amount paid-->
              </tr>
+
+            <form>
+                <label>Pay Amount</label>
+                <input name="Pay Amount"> <br>
+                <label for="pay to">Select an Expense Type:</label>
+                <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
+                    <option value={{ expenses.urgency1.type }}>{{ expenses.urgency1.type }}</option> 
+                    <option value={{ expenses.urgency2.type }}>{{ expenses.urgency2.type }}</option> 
+                    <option value={{ expenses.urgency3.type }}>{{ expenses.urgency3.type }}</option> 
+                    <option value={{ expenses.urgency4.type }}>{{ expenses.urgency4.type }}</option> 
+                    <option value={{ expenses.urgency5.type }}>{{ expenses.urgency5.type }}</option> 
+                    <option value={{ expenses.urgency6.type }}>{{ expenses.urgency6.type }}</option> 
+                    <option value={{ expenses.urgency7.type }}>{{ expenses.urgency7.type }}</option> 
+                    <option value={{ expenses.urgency8.type }}>{{ expenses.urgency8.type }}</option> 
+                    </select>
+            </form>
+            <button type="submit" form="form1" value="Submit">Pay</button>
             
         </table>
     </p>
