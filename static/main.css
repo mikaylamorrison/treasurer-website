@@ -84,12 +84,12 @@ body {
   }
 
   .late {
-    background-color: #ad3319cb;
+    background-color: #f471549c;
     color: #724D24;
   }
 
   .discount {
-    background-color: #7AA856cb;
+    background-color: #7eab5b7b;
     color: #724D24;
   }
 
@@ -105,13 +105,13 @@ body {
   }
 
   table {
-    width: 40%;
+    width: 55%;
     border-collapse: collapse;
     font-size: 17px;
   }
 
   th {
-    background-color: #dbc28a;
+    background-color: #d6b670;
     color: #724D24;
     border-bottom: 4px solid #482E1D;
     text-align: left;
@@ -119,7 +119,7 @@ body {
   }
 
   td {
-    color: #cfc39d;
+    color: #724d24;
     border-bottom: 2px solid #482E1D;
     text-align: left;
     padding: 10px;
@@ -147,4 +147,9 @@ body {
     font-size: 12px;
     margin: 12px 2px;
     border-radius: 12px;
+  }
+
+  .label {
+    color: #724D24;
+    font-size: 13px;
   }

@@ -10,7 +10,7 @@
 <p>
     <!--Expenses: Rent,Coaches,Member Discounts,Food and Drink,Staff Payroll,Insurance,Maintenance,Utility Costs-->
         <h2>Club Expenses</h2>
-        <table border="1">
+        <table>
             <tr>
                 <th>Urgency</th>
                 <th>Name</th>
@@ -32,16 +32,16 @@
             {% endfor%}
         </table>
         <form>
-            <label>Pay Amount</label>
+            <label class="label">Pay Amount</label>
             <input name="Pay Amount"> <br>
-            <label for="pay to">Select an Expense Type:</label>
+            <label class="label" for="pay to">Select an Expense Type:</label>
             <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
                 {% for expense in expenses %}
                     <option value={{ expense.type }}>{{ expense.type }} </option>
                 {% endfor %}
             </select>
         </form>
-        <button type="submit" form="form1" value="Submit">Pay</button>
+        <button class="button" padding="5" type="submit" form="form1" value="Submit">Pay</button>
     </p> 
 
     <p>
@@ -50,7 +50,7 @@
             <tr>
                 <th>Display Name</th>
                 <th>Username</th>
-                <th width="150">Sessions Unpaid</th>
+                <th width="200">Sessions Unpaid</th>
                 <th width="20">Streak</th>
             </tr>
             {% for user in users %}
