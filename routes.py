@@ -45,7 +45,6 @@ def session_handler():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=1)
 
-@app.route('/index', methods=("GET", "POST"), strict_slashes=False)
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
     
@@ -103,12 +102,12 @@ def register():
         except DataError:
             db.session.rollback()
             flash(f"Invalid Entry", "warning")
-        except InterfaceError:
+        except InterfaceError as e:
             db.session.rollback()
-            flash(f"Error connecting to the database:", "danger")
-        except DatabaseError:
+            flash(f"Error connecting to the database: {e}", "danger")
+        except DatabaseError as e:
             db.session.rollback()
-            flash(f"Error connecting to the database:", "danger")
+            flash(f"Error connecting to the database: {e}", "danger")
         except BuildError:
             db.session.rollback()
             flash(f"An error occured !", "danger")
