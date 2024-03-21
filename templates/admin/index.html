@@ -54,8 +54,7 @@
                 <th width="20">Streak</th>
             </tr>
             {% for user in users %}
-
-                {% if user.sessionsunpaid >= 0 and user.username != "admin"%} <!--Highlights the user red if they have payments due-->
+                {% if user.sessionsunpaid > 0 and user.username != "admin"%} <!--Highlights the user red if they have payments due-->
                     <tr class="late">
                         <td>{{ user.displayname }}</td>
                         <td>{{ user.username }}</td>
@@ -77,7 +76,6 @@
                         <td>{{ user.streak }}</td>
                     </tr>
                 {% endif %}
-
         {% endfor%}
         </table>
         <button class="button"> Send Notification </button>
