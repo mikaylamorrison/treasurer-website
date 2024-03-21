@@ -1,11 +1,11 @@
 from wtforms import (
     StringField,
     PasswordField,
+    RadioField
 )
 
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Length, EqualTo, Regexp ,Optional
-from flask_login import current_user
 from wtforms import ValidationError,validators
 from models import User
 
@@ -14,7 +14,7 @@ from models import User
 class register_form(FlaskForm):
     displayname = StringField(
         validators=[
-            InputRequired(),
+            Optional(),
             Length(3, 20, message="Please provide a valid name"),
             Regexp(
                 "^[A-Za-z][A-Za-z]*$",

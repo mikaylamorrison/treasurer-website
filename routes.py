@@ -27,8 +27,7 @@ from flask_login import (
 
 from app import create_app,db,login_manager,bcrypt
 from models import User
-from forms import login_form, register_form
-
+from forms import login_form,register_form
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -43,7 +42,9 @@ def session_handler():
 
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
-    return render_template("index.html",title="Home")
+    
+    users = User.query.filter(User.usertype == 0).order_by("sessionsunpaid")
+    return render_template("index.html",title="Home", users = users)
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -76,11 +77,11 @@ def register():
         try:
             pwd = form.pwd.data
             username = form.username.data
-            displayName = form.displayname.data
+            displayname = form.displayname.data
             newuser = User(
                 username=username,
                 pwd=bcrypt.generate_password_hash(pwd),
-                displayName = displayName
+                displayname=displayname
             )
     
             db.session.add(newuser)
@@ -97,12 +98,12 @@ def register():
         except DataError:
             db.session.rollback()
             flash(f"Invalid Entry", "warning")
-        except InterfaceError as e:
+        except InterfaceError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}", "danger")
-        except DatabaseError as e:
+            flash(f"Error connecting to the database", "danger")
+        except DatabaseError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}", "danger")
+            flash(f"Error connecting to the database", "danger")
         except BuildError:
             db.session.rollback()
             flash(f"An error occured !", "danger")
@@ -122,3 +123,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    

@@ -4,9 +4,11 @@
   
   <div>
       {% if current_user.is_authenticated %}
+
         <img class="fixed" src="2.png" width="50" height="50">
             <h1>Welcome {{ current_user.displayname }}</h1>
             <a class="fixed" href="{{url_for('logout')}}">Logout</a>
+
             {% if current_user.username == 'admin' %}
     <!-- CURRENTLY COMMENTED OUT THE EXPENSES, IF WANT TO TEST, REMOVE {# #}-->
 
@@ -16,7 +18,8 @@
                     <h2>Club Expenses</h2>
                     <table border="1">
                         <tr>
-                            <th>Urgency</th> 
+                            <th>Urgency</th>
+                            <th>Name</th>
                             <th>Expense Type</th>
                             <th>Amount Paid</th>
                             <th>Amount Due</th>
@@ -27,6 +30,7 @@
                         {% for expense in expenses %}
                             <tr> <!--will make one of these rows for each expense-->
                                 <td>{{ expense.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
+                                <td>{{ expense.name }} </td>
                                 <td>{{ expense.type }}</td> <!--need something for the expense type-->
                                 <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
                                 <td>{{ expense.paid }}</td> <!--need something for the expense amount paid-->
