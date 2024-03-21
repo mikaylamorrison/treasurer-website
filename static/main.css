@@ -66,6 +66,64 @@ h2{
     background-color: var(--color-logo);
 }
 */
+.body2 {
+    --color-borders: #482E1D;
+    --color-general-text: #724D24;
+    --color-discount: #7AA856;
+    --color-unpaid: #AD3119;
+    --color-background: #fcfbeb;
+    --color-logo: #DBAC40;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background);
+  }
+  .signup-login-link{
+    color: var(--color-general-text);
+    font-size: 30px;
+    font-weight: bold;
+    font-family: sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .login-create-account-link{
+    color: var(--color-general-text);
+    font-weight: bold;
+  }
+
+  .card-body{
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--color-logo);
+  }
+
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form{
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  .logo{
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   body {
     background-color: #fcfbeb;
   }
