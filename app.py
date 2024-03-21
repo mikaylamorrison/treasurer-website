@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_login import (
     LoginManager,
 )
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 
 import os
@@ -15,11 +15,21 @@ login_manager.login_view = "login"
 login_manager.login_message_category = "info"
 
 db = SQLAlchemy()
-admin = Admin(name = "Coin Keeper", template_mode= "bootstrap3")
 migrate = Migrate()
 bcrypt = Bcrypt()
 
+from models import User, Expense,UserView,ExpenseView
+class HomeView(AdminIndexView):
+    @expose('/')
+    def index(self):
+        users = User.query.filter(User.usertype == 0).order_by("sessionsunpaid")
+        expenses = Expense.query.order_by("urgency")
+        return self.render('admin/index.html', users=users, expenses=expenses)
 
+
+admin = Admin(name = "Coin Keeper", template_mode= "bootstrap3", index_view=HomeView())
+admin.add_view(UserView(User, db.session))
+admin.add_view(ExpenseView(Expense, db.session))
 
 def create_app():
     app = Flask('Coin Keeper')

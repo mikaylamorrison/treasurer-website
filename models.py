@@ -1,4 +1,4 @@
-from app import db, admin
+from app import db
 from flask_login import UserMixin
 from flask_admin.contrib.sqla import ModelView
 
@@ -58,5 +58,3 @@ class ExpenseView(ModelView):
         ]
 }
     
-admin.add_view(UserView(User, db.session))
-admin.add_view(ExpenseView(Expense, db.session))
