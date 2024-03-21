@@ -18,13 +18,13 @@
             {% endwith %}
 
             <div>
-                <h2>Club Meetings</h2>
+                <h2 class="text">Club Meetings</h2>
                 <h5>{{ text }}</h5>
             </div>
             
             <!-- DISPLAY NAME (REGISTER PAGE ONLY) -->
             {% if request.path == '/register/' %}
-                <div class="form">
+                <div class="form register">
                     {{ form.displayname(placeholder="Display Name")}}
                 </div>
                     <!-- FIELD ERROR MESSAGES SPECIFIC -->
@@ -34,7 +34,7 @@
             {% endif %}
 
              <!-- USERNAME -->
-            <div class="form">
+            <div class="form register">
                 {{ form.username(placeholder="Username")}}
             </div>
 
@@ -48,7 +48,7 @@
             {% endfor%}
 
              <!-- PASSWORD -->
-            <div class="form">
+            <div class="form register">
                 {{ form.pwd(placeholder="Password")}}
             </div>
 
@@ -63,7 +63,7 @@
 
             <!-- CONFIRM PASSWORD (REGISTER PAGE ONLY) -->
             {% if request.path == '/register/' %}
-                <div class="form">
+                <div class="form register">
                     {{ form.cpwd(placeholder="Confirm Password")}}
                 </div>
 
@@ -78,16 +78,16 @@
             <div>
 
                 <div>
-                    <button type="submit" class="button"> {{ btn_action }} </button>
+                    <button type="submit" class="button register-login"> {{ btn_action }} </button>
                 </div>
 
                 <p>
                     {% if request.path != '/register/' %}
                         New here?
-                        <a href="{{url_for('register')}}">Create account</a>
+                        <a href="{{url_for('register')}}" class="login-create-account-link">Create account</a>
                     {% else %}
                         Already have an account?
-                        <a href="{{url_for('login')}}">Login</a>
+                        <a href="{{url_for('login')}}" class="login-create-account-link">Login</a>
                     {% endif %}
                 </p>
                 
