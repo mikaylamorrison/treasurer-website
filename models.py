@@ -1,11 +1,11 @@
 from app import db
 from flask_login import UserMixin
 from flask_admin.contrib.sqla import ModelView
-
-
+# Define User model
 class User(UserMixin, db.Model):
+    # Specify the table name
     __tablename__ = "user"
-    
+    # Define the columns for the User table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     pwd = db.Column(db.String(300), nullable=False, unique=True)
@@ -14,15 +14,19 @@ class User(UserMixin, db.Model):
     sessionsunpaid = db.Column(db.Integer, default = 0, nullable = False)
     usertype = db.Column(db.Integer, default = 0, nullable=False)
     
+    # Define the string representation of the User model
     def __repr__(self):
         return '<User %r>' % self.username
-
+# Define UserView for Flask-Admin
 class UserView(ModelView):
+    # Specify the columns to display in the list view
     column_list = ["displayname", "username", "streak", "sessionsunpaid"]
+    # Specify the columns that can be edited directly in the list view
     column_editable_list=["streak", "sessionsunpaid"]
+    # Specify the labels for the columns
     column_labels={"displayname": "Name", "username": "Username", "streak":"Streak", "sessionsunpaid":"Sessions Unpaid"}
 
-
+# Define Expense model
 class Expense(db.Model):
     __tablename__ = "expense"
     
@@ -35,7 +39,7 @@ class Expense(db.Model):
     
     def __repr__(self):
         return '<Expense %r>' % self.name
-
+# Define ExpenseView for Flask-Admin
 class ExpenseView(ModelView):
     column_list = ["name", "type", "urgency", "paid", "due"]
     column_editable_list = ["name", "type", "urgency", "paid", "due"]

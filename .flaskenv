@@ -1,3 +1,4 @@
 FLASK_APP=routes.py
 FLASK_ENV=development
 FLASK_DEBUG=1
+FLASK_RUN_PORT=8000
