@@ -16,7 +16,7 @@ migrate = Migrate()
 bcrypt = Bcrypt()
 
 def create_app():
-    app = Flask("treasurer-website")
+    app = Flask('treasurer-website')
     
     app.secret_key = 'secret-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"

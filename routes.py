@@ -1,5 +1,4 @@
 from flask import (
-    Flask,
     render_template,
     redirect,
     flash,
@@ -21,10 +20,7 @@ from werkzeug.routing import BuildError
 from flask_bcrypt import Bcrypt,generate_password_hash, check_password_hash
 
 from flask_login import (
-    UserMixin,
     login_user,
-    LoginManager,
-    current_user,
     logout_user,
     login_required,
 )
@@ -48,7 +44,8 @@ def session_handler():
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
     
-    return render_template("index.html",title="Home")
+    users = User.query.filter(User.usertype == 0).order_by("sessionsunpaid")
+    return render_template("index.html",title="Home", users = users)
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -81,11 +78,11 @@ def register():
         try:
             pwd = form.pwd.data
             username = form.username.data
-            displayName = form.displayname.data
+            displayname = form.displayname.data
             newuser = User(
                 username=username,
                 pwd=bcrypt.generate_password_hash(pwd),
-                displayName = displayName
+                displayname=displayname
             )
     
             db.session.add(newuser)
@@ -104,10 +101,10 @@ def register():
             flash(f"Invalid Entry", "warning")
         except InterfaceError as e:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}", "danger")
+            flash(f"Error connecting to the database: {e}\n{db}", "danger")
         except DatabaseError as e:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}", "danger")
+            flash(f"Error connecting to the database: {e}\n{db}", "danger")
         except BuildError:
             db.session.rollback()
             flash(f"An error occured !", "danger")
