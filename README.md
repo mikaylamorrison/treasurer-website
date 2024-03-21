@@ -22,5 +22,3 @@ source env/bin/activate
 
 ### 5. Run the application
 `flask run`
-for on mac run
-`python routes.py`
