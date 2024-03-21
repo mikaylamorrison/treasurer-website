@@ -29,7 +29,6 @@ from app import create_app,db,login_manager,bcrypt
 from models import User
 from forms import login_form,register_form
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -99,12 +98,12 @@ def register():
         except DataError:
             db.session.rollback()
             flash(f"Invalid Entry", "warning")
-        except InterfaceError as e:
+        except InterfaceError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}\n{db}", "danger")
-        except DatabaseError as e:
+            flash(f"Error connecting to the database", "danger")
+        except DatabaseError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}\n{db}", "danger")
+            flash(f"Error connecting to the database", "danger")
         except BuildError:
             db.session.rollback()
             flash(f"An error occured !", "danger")
@@ -124,3 +123,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
