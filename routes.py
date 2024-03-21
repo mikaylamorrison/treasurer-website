@@ -17,7 +17,7 @@ from sqlalchemy.exc import (
 from werkzeug.routing import BuildError
 
 
-from flask_bcrypt import Bcrypt,generate_password_hash, check_password_hash
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 
 from flask_login import (
     login_user,
@@ -119,7 +119,6 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
 
 if __name__ == "__main__":
     app.run(debug=True)
