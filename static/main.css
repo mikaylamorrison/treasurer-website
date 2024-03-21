@@ -1,4 +1,124 @@
-  body {
+
+/*
+MIKAYLA CSS FILE!!
+.button {
+    background-color: #482e1d; 
+    border: none;
+    color: #fcfbeb;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.5s;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  tr:hover {background-color: #dbac40;}
+
+  th {
+    background-color: #dbac40;;
+    color: #724D24;}
+
+ div {background-color: #fcfbeb;}
+
+ h1 {color: #724D24;}
+
+*/
+/*
+SUBHA CSS FILE!!
+body{
+    --color-borders: #482E1D;
+    --color-general-text: #724D24;
+    --color-discount: #7AA856;
+    --color-unpaid: #AD3119;
+    --color-background: #fcfbeb;
+    --color-logo: #DBAC40;
+
+
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background);
+}
+
+.logo{
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.signup-login-link{
+    color: var(--color-general-text);
+    font-size: 30px;
+    font-weight: bold;
+    font-family: sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card-body{
+    padding: 20px;
+    background-color: var(--color-logo);
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+
+h2{
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form{
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.button{
+    font-family: sans-serif;
+    font-weight: 500;
+    background-color: var(--color-logo);
+}
+*/
+body {
     background-color: #fcfbeb;
   }
 

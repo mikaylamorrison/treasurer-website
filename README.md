@@ -11,7 +11,7 @@
 
 #### macOS/Linux:
 `
-source env\Scripts\activate
+source env/bin/activate
 `
 #### Windows:
 `env\Scripts\activate`
@@ -19,6 +19,6 @@ source env\Scripts\activate
 ### 4. Install the requirements
 `pip install -r requirements.txt`
 
+
 ### 5. Run the application
 `flask run`
-

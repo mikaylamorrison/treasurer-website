@@ -17,7 +17,7 @@ from sqlalchemy.exc import (
 from werkzeug.routing import BuildError
 
 
-from flask_bcrypt import Bcrypt,generate_password_hash, check_password_hash
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 
 from flask_login import (
     login_user,
@@ -28,7 +28,6 @@ from flask_login import (
 from app import create_app,db,login_manager,bcrypt
 from models import User
 from forms import login_form,register_form
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -99,12 +98,12 @@ def register():
         except DataError:
             db.session.rollback()
             flash(f"Invalid Entry", "warning")
-        except InterfaceError as e:
+        except InterfaceError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}\n{db}", "danger")
-        except DatabaseError as e:
+            flash(f"Error connecting to the database", "danger")
+        except DatabaseError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {e}\n{db}", "danger")
+            flash(f"Error connecting to the database", "danger")
         except BuildError:
             db.session.rollback()
             flash(f"An error occured !", "danger")
@@ -121,6 +120,6 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
 if __name__ == "__main__":
     app.run(debug=True)
+    
