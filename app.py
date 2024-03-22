@@ -23,7 +23,7 @@ class HomeView(AdminIndexView):
     @expose('/')
     def index(self):
         users = User.query.filter(User.usertype == 0).order_by("sessionsunpaid")
-        expenses = Expense.query.order_by("urgency")
+        expenses = Expense.query.order_by("paid", "urgency")
         return self.render('admin/index.html', users=users, expenses=expenses)
 
 
