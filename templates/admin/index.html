@@ -39,7 +39,7 @@
             <label class="label" for="pay to">Select an Expense Type:</label>
             <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
                 {% for expense in expenses %}
-                    <option value={{ expense.type }}>{{ expense.type }} </option>
+                    <option value={{ expense.id }}>{{ expense.id }} </option>
                 {% endfor %}
             </select>
         </form>
