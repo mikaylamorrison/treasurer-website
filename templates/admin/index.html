@@ -17,7 +17,7 @@
                 <th>Expense Type</th>
                 <th>Due Date</th>
                 <th>Amount Due</th>
-                <th>Paid?</th>
+                <th>Amount Paid</th>
             </tr>
 
             <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
@@ -28,7 +28,8 @@
                     <td>{{ expense.name }} </td>
                     <td>{{ expense.type }}</td> <!--need something for the expense type-->
                     <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
-                    <td>${{ expense.amount }}</td> <!--need something for the expense amount paid-->
+                    <td>{{ expense.amount }}</td> <!--need something for the expense amount paid-->
+                    <td>{{ expense.paid }}</td> <!--need something for the expense amount paid-->
                     <td>{% if expense.paid == true %} Yes {% else %} No {% endif %} </td>
                 </tr>
             {% endfor%}
@@ -39,7 +40,7 @@
             <label class="label" for="pay to">Select an Expense Type:</label>
             <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
                 {% for expense in expenses %}
-                    <option value={{ expense.name }}>{{ expense.name }} </option>
+                    <option value={{ expense.id }}>{{ expense.id }} </option>
                 {% endfor %}
             </select>
         </form>

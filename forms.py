@@ -10,8 +10,9 @@ from wtforms import ValidationError,validators
 from models import User
 
 
-
+# Define registration form
 class register_form(FlaskForm):
+    # Define displayname field with optional, length and regex validators
     displayname = StringField(
         validators=[
             Optional(),
@@ -23,6 +24,7 @@ class register_form(FlaskForm):
             )
             ]
     )
+    # Define username field with required, length and regex validators
     username = StringField(
         validators=[
             InputRequired(),
@@ -34,7 +36,9 @@ class register_form(FlaskForm):
             ),
         ]
     )
+    # Define password field with required and length validators
     pwd = PasswordField(validators=[InputRequired(), Length(8, 72)])
+    # Define confirm password field with required, length and equal to validators
     cpwd = PasswordField(
         validators=[
             InputRequired(),
@@ -42,11 +46,13 @@ class register_form(FlaskForm):
             EqualTo("pwd", message="Passwords must match!"),
         ]
     )
-
+    # Define custom validator for username
     def validate_uname(self, username):
+        # Check if username already exists in the database
         if User.query.filter_by(username=username.data).first():
+            # Raise validation error if username already exists
             raise ValidationError("Username already taken!")
-        
+# Define login form        
 class login_form(FlaskForm):
     pwd = PasswordField(validators=[InputRequired(), Length(min=8, max=72)])
     # Placeholder labels to enable form rendering
