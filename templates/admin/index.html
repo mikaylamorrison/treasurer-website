@@ -17,16 +17,18 @@
                 <th>Expense Type</th>
                 <th>Due Date</th>
                 <th>Amount Due</th>
+                <th>Amount Paid</th>
             </tr>
 
             <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
 
             {% for expense in expenses %}
                 <tr> <!--will make one of these rows for each expense-->
-                    <td>{{ expense.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
+                    <td>{{ expense.urgency }}</td> <!--need something for the expense urgency rank-->
                     <td>{{ expense.name }} </td>
                     <td>{{ expense.type }}</td> <!--need something for the expense type-->
                     <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
+                    <td>{{ expense.amount }}</td> <!--need something for the expense amount paid-->
                     <td>{{ expense.paid }}</td> <!--need something for the expense amount paid-->
                 </tr>
             {% endfor%}

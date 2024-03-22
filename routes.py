@@ -128,6 +128,10 @@ def register():
         title="Register",
         btn_action="Register account"
         )
+
+@app.route("/admin/", methods=("GET", "POST"), strict_slashes=False)
+def admin():
+    return render_template("/admin",title="Admin",)
 # Define the route for the logout page
 @app.route("/logout")
 # Require the user to be logged in to access this route

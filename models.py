@@ -36,14 +36,15 @@ class Expense(db.Model):
     urgency = db.Column(db.Integer, default = 0, nullable = False)
     paid = db.Column(db.Boolean, default = False, nullable = False)
     due = db.Column(db.Date, nullable= False)
+    amount = db.Column(db.Float, nullable= False)
     
     def __repr__(self):
         return '<Expense %r>' % self.name
 # Define ExpenseView for Flask-Admin
 class ExpenseView(ModelView):
-    column_list = ["name", "type", "urgency", "paid", "due"]
-    column_editable_list = ["name", "type", "urgency", "paid", "due"]
-    column_labels={"name":"Name", "type":"Type", "urgency":"Urgency", "paid":"Paid?", "due":"Due Date"}
+    column_list = ["name", "type", "urgency", "paid", "due","amount"]
+    column_editable_list = ["name", "type", "urgency", "paid", "due","amount"]
+    column_labels={"name":"Name", "type":"Type", "urgency":"Urgency", "paid":"Paid?", "due":"Due Date","amount":"Amount"}
     form_choices = {
     'type': [
         ('Rent', 'Rent'),
@@ -62,3 +63,38 @@ class ExpenseView(ModelView):
         ]
 }
     
+class Hall(db.Model):
+    __tablename__ = "Hall"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    month = db.Column(db.String(100), unique=True, nullable = False)
+    urgency = db.Column(db.Integer, default = 0, nullable = False)
+    paid = db.Column(db.Boolean, default = False, nullable = False)
+    due = db.Column(db.Date, nullable= False)
+    
+    def __repr__(self):
+        return '<Hall %r>' % self.name
+# Define ExpenseView for Flask-Admin
+class HallView(ModelView):
+    column_list = ["ID", "month", "urgency", "paid", "due"]
+    column_editable_list = ["ID", "month", "urgency", "paid", "due"]
+    column_labels={"month":"Month", "urgency":"Urgency", "paid":"Paid?", "due":"Due Date"}
+
+    
+class Coach(db.Model):
+    __tablename__ = "Coach"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable = False)
+    month = db.Column(db.String(100), unique=True, nullable = False)
+    urgency = db.Column(db.Integer, default = 0, nullable = False)
+    paid = db.Column(db.Boolean, default = False, nullable = False)
+    due = db.Column(db.Date, nullable= False)
+    
+    def __repr__(self):
+        return '<Coach %r>' % self.name
+# Define ExpenseView for Flask-Admin
+class CoachView(ModelView):
+    column_list = ["name", "month", "urgency", "paid", "due"]
+    column_editable_list = ["name", "month", "urgency", "paid", "due"]
+    column_labels={"name":"Name", "month":"Month", "urgency":"Urgency", "paid":"Paid?", "due":"Due Date"}
