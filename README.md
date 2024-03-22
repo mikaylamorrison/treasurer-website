@@ -38,8 +38,8 @@ A club payment/tracking website created by Cindy Hua, Mikayla Morrison, Vanja Do
 `flask run`
 
 ## Common Errors and Fixes
-### Database error while creating accounts
-Run `python manage.py`
+### Database errors
+Run `python manage.py` to ensure most updated database
 ### Address already in use. Port 5000 is in use by another program error
 Run `flask run --port=8000` instead of `flask run`
 ### ModuleNotFoundError when running flask application
