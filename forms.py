@@ -17,7 +17,7 @@ class register_form(FlaskForm):
             Optional(),
             Length(3, 20, message="Please provide a valid name"),
             Regexp(
-                "^[A-Za-z][A-Za-z]*$",
+                "^[A-Za-z][A-Za-z ]*[A-Za-z]$",
                 0,
                 "Display Name must have only letters.",
             )

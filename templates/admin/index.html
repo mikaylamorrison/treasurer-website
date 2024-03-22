@@ -17,17 +17,19 @@
                 <th>Expense Type</th>
                 <th>Due Date</th>
                 <th>Amount Due</th>
+                <th>Paid?</th>
             </tr>
 
             <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
 
             {% for expense in expenses %}
                 <tr> <!--will make one of these rows for each expense-->
-                    <td>{{ expense.urgencyLevel }}</td> <!--need something for the expense urgency rank-->
+                    <td>{{ expense.urgency }}</td> <!--need something for the expense urgency rank-->
                     <td>{{ expense.name }} </td>
                     <td>{{ expense.type }}</td> <!--need something for the expense type-->
                     <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
-                    <td>{{ expense.paid }}</td> <!--need something for the expense amount paid-->
+                    <td>${{ expense.amount }}</td> <!--need something for the expense amount paid-->
+                    <td>{% if expense.paid == true %} Yes {% else %} No {% endif %} </td>
                 </tr>
             {% endfor%}
         </table>
@@ -37,7 +39,7 @@
             <label class="label" for="pay to">Select an Expense Type:</label>
             <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
                 {% for expense in expenses %}
-                    <option value={{ expense.type }}>{{ expense.type }} </option>
+                    <option value={{ expense.name }}>{{ expense.name }} </option>
                 {% endfor %}
             </select>
         </form>
@@ -54,27 +56,29 @@
                 <th width="20">Streak</th>
             </tr>
             {% for user in users %}
-                {% if user.sessionsunpaid > 0 and user.username != "admin"%} <!--Highlights the user red if they have payments due-->
-                    <tr class="late">
-                        <td>{{ user.displayname }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.sessionsunpaid }}</td>
-                        <td>{{ user.streak }}</td>
-                    </tr>
-                {% elif user.streak == 3 and user.username != "admin"%} <!--Highlights the user green if user have discount-->
-                    <tr class="discount">
-                        <td>{{ user.displayname }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.sessionsunpaid }}</td>
-                        <td>{{ user.streak }}</td>
-                    </tr>
-                {% else %} <!--if user has no payments due or discount print normal-->
-                    <tr>
-                        <td>{{ user.displayname }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.sessionsunpaid }}</td>
-                        <td>{{ user.streak }}</td>
-                    </tr>
+                {% if user.username != 'admin' %}
+                    {% if user.sessionsunpaid > 0 %} <!--Highlights the user red if they have payments due-->
+                        <tr class="late">
+                            <td>{{ user.displayname }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.sessionsunpaid }}</td>
+                            <td>{{ user.streak }}</td>
+                        </tr>
+                    {% elif user.streak == 3 %} <!--Highlights the user green if user have discount-->
+                        <tr class="discount">
+                            <td>{{ user.displayname }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.sessionsunpaid }}</td>
+                            <td>{{ user.streak }}</td>
+                        </tr>
+                    {% else %} <!--if user has no payments due or discount print normal-->
+                        <tr>
+                            <td>{{ user.displayname }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.sessionsunpaid }}</td>
+                            <td>{{ user.streak }}</td>
+                        </tr>
+                    {% endif %}
                 {% endif %}
         {% endfor%}
         </table>

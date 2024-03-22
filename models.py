@@ -31,15 +31,16 @@ class Expense(db.Model):
     name = db.Column(db.String(100), unique=True, nullable = False)
     urgency = db.Column(db.Integer, default = 0, nullable = False)
     paid = db.Column(db.Boolean, default = False, nullable = False)
+    amount = db.Column(db.Float, default = 0.0, nullable = False)
     due = db.Column(db.Date, nullable= False)
     
     def __repr__(self):
         return '<Expense %r>' % self.name
 
 class ExpenseView(ModelView):
-    column_list = ["name", "type", "urgency", "paid", "due"]
-    column_editable_list = ["name", "type", "urgency", "paid", "due"]
-    column_labels={"name":"Name", "type":"Type", "urgency":"Urgency", "paid":"Paid?", "due":"Due Date"}
+    column_list = ["name", "type", "urgency", "paid", "amount","due"]
+    column_editable_list = ["name", "type", "urgency", "paid","amount", "due"]
+    column_labels={"name":"Name", "type":"Type", "urgency":"Urgency", "paid":"Paid?", "amount":"Amount","due":"Due Date"}
     form_choices = {
     'type': [
         ('Rent', 'Rent'),

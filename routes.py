@@ -43,8 +43,7 @@ def session_handler():
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
     
-    users = User.query.filter(User.usertype == 0).order_by("sessionsunpaid")
-    return render_template("index.html",title="Home", users = users)
+    return render_template("index.html",title="Home")
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
