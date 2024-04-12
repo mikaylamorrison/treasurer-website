@@ -2,11 +2,64 @@
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
   
-  <div>
-      {% if current_user.is_authenticated %}
-            <h1>Welcome {{ current_user.displayname }}</h1>
-            <a class="fixed" href="{{url_for('logout')}}">Logout</a>
+    <div>
+    {% if current_user.is_authenticated %}
+        <h1>Welcome {{ current_user.displayname }}</h1>
+        <a class="fixed" href="{{url_for('logout')}}">Logout</a>
 
+        <table class="main-table">
+            <tr>
+                <td class="sessions-column">
+                    <h2>Upcoming Sessions</h2>
+                    <table class="session-table">
+                        <tr>
+                            <th>Session</th>
+                            <th>Session Date</th>
+                            <th>Session Time</th>
+                            <th>Register</th>
+                        </tr>
+                        {% for session in sessions %}
+                        <tr>
+                            <td>{{ session.id }}</td>
+                            <td>{{ session.date }}</td>
+                            <td>{{ session.starttime }} - {{ session.endtime }}</td>
+                            <td><button class="register-button">Register</button></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td class="payment-column">
+                    <div class="payment-box">
+                        <h2>Payment Amount Due: $25</h2>
+                        <form>
+                            <label class="payment-label">Pay Amount</label>
+                            <input name="Pay Amount"> <br>
+                        </form>
+                        <button class="payment-button" type="submit" form="form1" value="Submit">Pay</button>
+                    </div>
+                    <div class="announcement-container">
+                        <h2>Announcement Board</h2>
+                        <table class="announcement-table">
+                            {% for announcement in announcements %}
+                            <tr>
+                                <th><h3>{{ announcement.title }}</h3></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        From: {{ announcement.name }} <br>
+                                        Date Posted: {{ announcement.date }} <br>
+                                        {{ announcement.body }}
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
       {% else %}
         <a href="{{url_for('login')}}" class="signup-login-link">Sign in/Sign Up</a>
 
