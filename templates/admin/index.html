@@ -35,19 +35,19 @@
                     </tr>
                 {% endfor%}
             </table>
-            <form>
+            <form id = "hallForm" action="/pay_hall" method="POST">
                 <label class="label">Pay Amount</label>
-                <input name="Pay Amount"> <br>
-                <label class="label" for="pay to">Select an Expense Type:</label>
-                <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
+                <input name="Pay_Amount"> <br>
+                <label class="label" for="pay_to">Select an Expense Type:</label>
+                <select name="pay_to" id="pay_to"> <!--might need to change the ID at some point-->
                     {% for expense in expensesHall %}
                         {% if expense.paid == false %}
-                            <option value={{ expense.name }}>{{ expense.name }} </option>
+                            <option value={{ expense.id }}>{{ expense.name }} </option>
                         {% endif %}
                     {% endfor %}
                 </select>
             </form>
-            <button class="button" padding="5" type="submit" form="form1" value="Submit">Pay</button>
+            <button class="button" padding="5" type="submit" form="hallForm" value="Submit">Pay</button>
         </p> 
     
         <p>
@@ -76,19 +76,19 @@
                         </tr>
                     {% endfor%}
                 </table>
-                <form>
+                <form id = "coachForm" action="/pay_coach" method="POST">
                     <label class="label">Pay Amount</label>
-                    <input name="Pay Amount"> <br>
-                    <label class="label" for="pay to">Select an Expense Type:</label>
-                    <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
+                    <input name="Pay_Amount"> <br>
+                    <label class="label" for="pay_to">Select an Expense Type:</label>
+                    <select name="pay_to" id="pay_to"> <!--might need to change the ID at some point-->
                         {% for expense in expensesCoach %}
                             {% if expense.paid == false %}
-                                <option value={{ expense.name }}>{{ expense.name }} </option>
+                                <option value={{ expense.id }}>{{ expense.name }} </option>
                             {% endif %}
                         {% endfor %}
                     </select>
                 </form>
-                <button class="button" padding="5" type="submit" form="form1" value="Submit">Pay</button>
+                <button class="button" padding="5" type="submit" form="coachForm" value="Submit">Pay</button>
         </p> 
     
         <p>
