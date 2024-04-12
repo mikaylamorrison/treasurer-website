@@ -13,9 +13,14 @@ A club payment/tracking website created by Cindy Hua, Mikayla Morrison, Vanja Do
     - [6. Ensure database is migrated](#6-ensure-database-is-migrated)
     - [7. Run the application](#7-run-the-application)
   - [Common Errors and Fixes](#common-errors-and-fixes)
-    - [Database error while creating accounts](#database-error-while-creating-accounts)
+    - [Database errors](#database-errors)
     - [Address already in use. Port 5000 is in use by another program error](#address-already-in-use-port-5000-is-in-use-by-another-program-error)
     - [ModuleNotFoundError when running flask application](#modulenotfounderror-when-running-flask-application)
+  - [Sample Accounts](#sample-accounts)
+    - [Admin](#admin)
+    - [Treasurer](#treasurer)
+    - [Coach](#coach)
+    - [Users(0-9)](#users0-9)
 
 ## Setup 
 
@@ -44,3 +49,22 @@ Run `python manage.py` to ensure most updated database
 Run `flask run --port=8000` instead of `flask run`
 ### ModuleNotFoundError when running flask application
 Ensure all requirements are installed in proper path. Try to manually install the module in question by using `pip install module` where module is the missing module.
+
+## Sample Accounts
+These accounts are pregenerated for testing purposes.
+### Admin
+username: admin  
+password: admin123
+
+### Treasurer
+username: treasurer  
+password: treasurer123
+
+### Coach
+username: coach  
+password: coach123
+
+### Users(0-9)
+username: user(0-9)  
+password: user(0-9)pwd  
+For exammple: user0 would be the username and user0pwd is the password.
