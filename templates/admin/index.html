@@ -6,84 +6,128 @@
 {% endblock%}
 
 {% block body %}
-
-<p>
-    <!--Expenses: Rent,Coaches,Member Discounts,Food and Drink,Staff Payroll,Insurance,Maintenance,Utility Costs-->
-        <h2>Club Expenses</h2>
-        <table>
-            <tr>
-                <th>Urgency</th>
-                <th>Name</th>
-                <th>Expense Type</th>
-                <th>Due Date</th>
-                <th>Amount Due</th>
-                <th>Amount Paid</th>
-            </tr>
-
-            <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
-
-            {% for expense in expenses %}
-                <tr> <!--will make one of these rows for each expense-->
-                    <td>{{ expense.urgency }}</td> <!--need something for the expense urgency rank-->
-                    <td>{{ expense.name }} </td>
-                    <td>{{ expense.type }}</td> <!--need something for the expense type-->
-                    <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
-                    <td>{{ expense.amount }}</td> <!--need something for the expense amount paid-->
-                    <td>{{ expense.paid }}</td> <!--need something for the expense amount paid-->
-                    <td>{% if expense.paid == true %} Yes {% else %} No {% endif %} </td>
-                </tr>
-            {% endfor%}
-        </table>
-        <form>
-            <label class="label">Pay Amount</label>
-            <input name="Pay Amount"> <br>
-            <label class="label" for="pay to">Select an Expense Type:</label>
-            <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
-                {% for expense in expenses %}
-                    <option value={{ expense.id }}>{{ expense.id }} </option>
-                {% endfor %}
-            </select>
-        </form>
-        <button class="button" padding="5" type="submit" form="form1" value="Submit">Pay</button>
-    </p> 
-
+    {% if current_user.is_authenticated and (current_user.username == "admin" or current_user.username == "treasurer" or current_user.username == "coach") %}
+    <h1>Welcome {{ current_user.displayname }}</h1>
+    <a class="fixed" href="{{url_for('logout')}}">Logout</a>
     <p>
-        <h2>Club Members</h2>
-        <table>
-            <tr>
-                <th>Display Name</th>
-                <th>Username</th>
-                <th width="200">Sessions Unpaid</th>
-                <th width="20">Streak</th>
-            </tr>
-            {% for user in users %}
-                {% if user.username != 'admin' %}
-                    {% if user.sessionsunpaid > 0 %} <!--Highlights the user red if they have payments due-->
-                        <tr class="late">
-                            <td>{{ user.displayname }}</td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.sessionsunpaid }}</td>
-                            <td>{{ user.streak }}</td>
+        <!--Hall Expenses-->
+            <h2>Hall Expenses</h2>
+            <table>
+                <tr>
+                    <th>Urgency</th>
+                    <th>Name</th>
+                    <th>Expense Type</th>
+                    <th>Due Date</th>
+                    <th>Amount Due</th>
+                    <th>Payment Status</th>
+                </tr>
+    
+                <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
+    
+                {% for expense in expensesHall %}
+                    <tr> <!--will make one of these rows for each expense-->
+                        <td>{{ expense.urgency }}</td> <!--need something for the expense urgency rank-->
+                        <td>{{ expense.name }} </td>
+                        <td>{{ expense.type }}</td> <!--need something for the expense type-->
+                        <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
+                        <td>{{ expense.amount }}</td> <!--need something for the expense amount paid-->
+                        <td>{% if expense.paid == true %} Paid {% else %} Not Paid {% endif %} </td>
+                    </tr>
+                {% endfor%}
+            </table>
+            <form>
+                <label class="label">Pay Amount</label>
+                <input name="Pay Amount"> <br>
+                <label class="label" for="pay to">Select an Expense Type:</label>
+                <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
+                    {% for expense in expensesHall %}
+                        {% if expense.paid == false %}
+                            <option value={{ expense.name }}>{{ expense.name }} </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </form>
+            <button class="button" padding="5" type="submit" form="form1" value="Submit">Pay</button>
+        </p> 
+    
+        <p>
+            <!--Coach Expenses-->
+                <h2>Coach Expenses</h2>
+                <table>
+                    <tr>
+                        <th>Urgency</th>
+                        <th>Name</th>
+                        <th>Expense Type</th>
+                        <th>Due Date</th>
+                        <th>Amount Due</th>
+                        <th>Payment Status</th>
+                    </tr>
+        
+                    <!--all factors and their placement in the tabl will depend on urgency;urgency is dynamic-->
+        
+                    {% for expense in expensesCoach %}
+                        <tr> <!--will make one of these rows for each expense-->
+                            <td>{{ expense.urgency }}</td> <!--need something for the expense urgency rank-->
+                            <td>{{ expense.name }} </td>
+                            <td>{{ expense.type }}</td> <!--need something for the expense type-->
+                            <td>{{ expense.due }}</td> <!--need something for the expense amount due-->
+                            <td>{{ expense.amount }}</td> <!--need something for the expense amount paid-->
+                            <td>{% if expense.paid == true %} Paid {% else %} Not Paid {% endif %} </td>
                         </tr>
-                    {% elif user.streak == 3 %} <!--Highlights the user green if user have discount-->
-                        <tr class="discount">
-                            <td>{{ user.displayname }}</td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.sessionsunpaid }}</td>
-                            <td>{{ user.streak }}</td>
-                        </tr>
-                    {% else %} <!--if user has no payments due or discount print normal-->
-                        <tr>
-                            <td>{{ user.displayname }}</td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.sessionsunpaid }}</td>
-                            <td>{{ user.streak }}</td>
-                        </tr>
+                    {% endfor%}
+                </table>
+                <form>
+                    <label class="label">Pay Amount</label>
+                    <input name="Pay Amount"> <br>
+                    <label class="label" for="pay to">Select an Expense Type:</label>
+                    <select name="pay to" id="pay to"> <!--might need to change the ID at some point-->
+                        {% for expense in expensesCoach %}
+                            {% if expense.paid == false %}
+                                <option value={{ expense.name }}>{{ expense.name }} </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </form>
+                <button class="button" padding="5" type="submit" form="form1" value="Submit">Pay</button>
+        </p> 
+    
+        <p>
+            <h2>Club Members</h2>
+            <table>
+                <tr>
+                    <th>Display Name</th>
+                    <th>Username</th>
+                    <th width="200">Sessions Unpaid</th>
+                    <th width="20">Streak</th>
+                </tr>
+                {% for user in users %}
+                    {% if user.roles[0].name == "user" %}
+                        {% if user.sessionsunpaid > 0 %} <!--Highlights the user red if they have payments due-->
+                            <tr class="late">
+                                <td>{{ user.displayname }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.sessionsunpaid }}</td>
+                                <td>{{ user.streak }}</td>
+                            </tr>
+                        {% elif user.streak == 3 %} <!--Highlights the user green if user have discount-->
+                            <tr class="discount">
+                                <td>{{ user.displayname }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.sessionsunpaid }}</td>
+                                <td>{{ user.streak }}</td>
+                            </tr>
+                        {% else %} <!--if user has no payments due or discount print normal-->
+                            <tr>
+                                <td>{{ user.displayname }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.sessionsunpaid }}</td>
+                                <td>{{ user.streak }}</td>
+                            </tr>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-        {% endfor%}
-        </table>
-        <button class="button"> Send Notification </button>
-    </p>
-
+            {% endfor%}
+            </table>
+            <button class="button"> Send Notification </button>
+        </p>
+    {% endif%}
 {% endblock %}

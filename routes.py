@@ -5,7 +5,7 @@ from flask import (
     url_for,
     session
 )
-
+from functools import wraps
 from datetime import timedelta
 from sqlalchemy.exc import (
     IntegrityError,
@@ -14,6 +14,8 @@ from sqlalchemy.exc import (
     InterfaceError,
     InvalidRequestError,
 )
+from sqlalchemy.orm import sessionmaker
+
 from werkzeug.routing import BuildError
 
 from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
@@ -22,11 +24,18 @@ from flask_login import (
     login_user,
     logout_user,
     login_required,
+    current_user,
 )
 
+from sqlalchemy import inspect, func
+from flask_admin import Admin, AdminIndexView, expose
 from app import create_app,db,login_manager,bcrypt
-from models import User
+from models import *
 from forms import login_form,register_form
+from datetime import datetime, timedelta
+from random import randint, choice
+from faker import Faker
+
 
 # Define user loader for flask-login
 @login_manager.user_loader
@@ -36,6 +45,128 @@ def load_user(user_id):
 
 # Create an instance of the Flask application
 app = create_app()
+
+with app.app_context():
+    # Get a list of all tables in the database
+    inspector = inspect(db.engine)
+    tables = inspector.get_table_names()
+    
+
+    admin = Admin(name = "Coin Keeper", template_mode= "bootstrap3", index_view=HomeView())
+    admin.add_view(UserView(User, db.session, endpoint = "user"))
+    admin.add_view(CoachView(CoachExpenses, db.session, endpoint = "coach"))
+    admin.add_view(HallView(HallExpenses, db.session, endpoint = "hall"))
+    admin.add_view(AnnouncementView(Announcement, db.session, endpoint = "announcement"))
+    admin.add_view(SessionsView(Sessions, db.session, endpoint = "sessions"))
+    
+    admin.init_app(app)
+    
+    # fakes info
+    fake = Faker()
+    
+    # TEST DATA FOR ROLES
+    role_user = Role(name = "user")
+    role_treasurer = Role(name = "treasurer")
+    role_coach = Role(name = "coach")
+    
+    for i in [role_user, role_treasurer, role_coach]:
+        role = i.name
+        existing_role = Role.query.filter_by(name=role).first()
+        if existing_role is None:
+            db.session.add(i)
+    db.session.commit()
+    
+    # TEST DATA FOR USERS
+    
+    role_user = Role.query.filter_by(name="user").first()
+    role_treasurer = Role.query.filter_by(name="treasurer").first()
+    role_coach = Role.query.filter_by(name="coach").first()
+    
+    user_admin = User(username = "admin", pwd = bcrypt.generate_password_hash("admin123"), displayname = "Admin")
+    user_admin.roles = [role_treasurer, role_coach]
+    
+    user_treasurer = User(username = "treasurer", pwd = bcrypt.generate_password_hash("treasurer123"), displayname = "Treasurer")
+    user_treasurer.roles = [role_treasurer]
+    
+    user_coach = User(username = "coach", pwd = bcrypt.generate_password_hash("coach123"), displayname = "Coach")
+    user_coach.roles = [role_coach]
+
+    for i in range(10):
+        name = f"user{i}"
+        # Check if the username already exists in the table
+        existing_user = User.query.filter_by(username=name).first()
+        if existing_user is None:
+            # If the username doesn't exist, create a new user
+            user_user = User(username=name, pwd=bcrypt.generate_password_hash(f"user{i}pwd"), displayname = fake.name() , streak = randint(0,3), sessionsunpaid = randint(0,3))
+            user_user.roles = [role_user]
+            db.session.add(user_user)
+    
+    for i in [user_admin, user_treasurer, user_coach]:
+        name = i.username
+        existing_user = User.query.filter_by(username=name).first()
+        if existing_user is None:
+            db.session.add(i)
+    db.session.commit()
+    
+    
+
+    # TEST DATA FOR COACH EXPENSES
+    if CoachExpenses.query.count() < 10:
+        for _ in range(10 - CoachExpenses.query.count()):
+            coach_expense = CoachExpenses(
+                type=choice(['Payroll', 'Equipment']),
+                name=fake.company(),
+                urgency=randint(0, 3),
+                paid=fake.boolean(),
+                amount=randint(100, 1000),
+                due=fake.date_between(start_date='-1y', end_date='+1y')
+            )
+            db.session.add(coach_expense)
+
+    
+    # TEST DATA FOR HALL EXPENSES
+    if HallExpenses.query.count() < 10:
+        for _ in range(10 - HallExpenses.query.count()):
+            hall_expense = HallExpenses(
+                type=choice(['Rent', 'Food and Drink', 'Insurance', 'Maintenance', 'Utilities']),
+                name=fake.company(),
+                urgency=randint(0, 3),
+                paid=fake.boolean(),
+                amount=randint(100, 1000),
+                due=fake.date_between(start_date='-1y', end_date='+1y')
+            )
+            db.session.add(hall_expense)
+
+    
+    # TEST DATA FOR ANNOUNCEMENTS
+    if Announcement.query.count() < 3:
+        for _ in range(3 - Announcement.query.count()):
+            announcement = Announcement(
+                name=fake.name(),
+                title=fake.sentence(),
+                body=fake.paragraph(),
+                date=fake.date_between(start_date='-1y', end_date='+1y')
+            )
+            db.session.add(announcement)
+
+
+    
+    # TEST DATA FOR SESSIONS (WEEKLY)
+    if Sessions.query.count() < 10:
+        start_date = datetime.now().date() - timedelta(days=7 * 10)  # 10 weeks ago
+        for i in range(10 - Sessions.query.count()):
+            session_date = start_date + timedelta(days=7 * i)
+            
+            starthour = randint(10,18)
+            starttime = datetime.strptime(f"{starthour}:00", "%H:%M").time()
+            endtime = (datetime.combine(datetime.min, starttime) + timedelta(hours=1)).time()
+            session = Sessions(date=session_date, starttime=starttime, endtime=endtime )
+            # Add random attendees (users)
+            attendees = User.query.filter(User.roles.any(name="user")).order_by(func.random()).limit(randint(1, 5)).all()
+            session.attendees.extend(attendees)
+            db.session.add(session)
+    
+    db.session.commit()
 
 # Define a function to be run before each request
 @app.before_request
@@ -48,8 +179,7 @@ def session_handler():
 # Define the route for the index page
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
-    
-    return render_template("index.html",title="Home")
+    return render_template("index.html",title="Home", announcements = Announcement.query.all(), sessions = Sessions.query.all())
 
 # Define the route for the login page
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -62,7 +192,10 @@ def login():
             user = User.query.filter_by(username=form.username.data).first()
             if check_password_hash(user.pwd, form.pwd.data):
                 login_user(user)
-                return redirect(url_for('index'))
+                if user.username == "admin" or user.username == "treasurer" or user.username == "coach":
+                    return redirect(url_for("admin"))
+                else:
+                    return redirect(url_for('index'))
             else:
                 flash("Invalid Username or password!", "danger")
         except Exception as e:
@@ -130,6 +263,8 @@ def register():
 @app.route("/admin/", methods=("GET", "POST"), strict_slashes=False)
 def admin():
     return render_template("/admin",title="Admin",)
+
+
 # Define the route for the logout page
 @app.route("/logout")
 # Require the user to be logged in to access this route
@@ -137,7 +272,3 @@ def admin():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-if __name__ == "__main__":
-    app.run(debug=True)
-    
