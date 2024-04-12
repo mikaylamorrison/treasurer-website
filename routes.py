@@ -228,6 +228,7 @@ def register():
                 pwd=bcrypt.generate_password_hash(pwd),
                 displayname=displayname
             )
+            newuser.roles = [Role.query.filter_by(name = "user").first()]
             # Add the new user to the session and commit the session to the database
             db.session.add(newuser)
             db.session.commit()

@@ -134,7 +134,7 @@ class Sessions(db.Model):
 
     
     def __repr__(self):
-        return '<Session %r>' % self.name
+        return '<Session %r>' % self.id
 
 session_attendees = db.Table('session_attendees',
     db.Column('session_id', db.Integer, db.ForeignKey('sessions.id'), primary_key=True),
