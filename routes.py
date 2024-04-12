@@ -3,7 +3,8 @@ from flask import (
     redirect,
     flash,
     url_for,
-    session
+    session,
+    request
 )
 from functools import wraps
 from datetime import timedelta
@@ -264,11 +265,58 @@ def register():
 def admin():
     return render_template("/admin",title="Admin",)
 
+@app.route('/pay_hall', methods=['POST'])
+def pay_hall_expense():
+    expense_id = request.form['pay_to']
+    amount_paid = float(request.form['Pay_Amount'])
+
+    # Call your function to pay the hall expense
+    pay_hallexpense(expense_id, amount_paid)
+
+    return redirect(url_for("admin"))
+
+@app.route('/pay_coach', methods=['POST'])
+def pay_coach_expense():
+    expense_id = request.form['pay_to']
+    amount_paid = float(request.form['Pay_Amount'])
+
+    # Call your function to pay the coach expense
+    pay_coachexpense(expense_id, amount_paid)
+
+    return redirect(url_for("admin"))
 
 # Define the route for the logout page
 @app.route("/logout")
-# Require the user to be logged in to access this route
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+def pay_hallexpense(expense_id, amount_paid):
+    # Try to get the Expense instance with the given id
+    expense = db.session.get(HallExpenses, expense_id)
+    
+    if expense is not None:
+        # If the Expense instance exists, update its paid status and amount
+        if expense.amount <= amount_paid:
+            expense.paid = True
+            expense.amount = 0
+        else:
+            expense.amount -= amount_paid
+
+        # Commit the changes to the database
+        db.session.commit()
+
+def pay_coachexpense(expense_id, amount_paid):
+    expense = db.session.get(CoachExpenses, expense_id)
+    
+    if expense is not None:
+        # If the Expense instance exists, update its paid status and amount
+        if expense.amount <= amount_paid:
+            expense.paid = True
+            expense.amount = 0
+        else:
+            expense.amount -= amount_paid
+
+        # Commit the changes to the database
+        db.session.commit()
